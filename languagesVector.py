@@ -1,7 +1,5 @@
-import (ngrams,
-		operator,
-		collections,
-)		
+import ngrams, operator, collections
+		
 
 #make a propbability list for one language
 #source_file - file with plain text
@@ -20,39 +18,34 @@ def count_ngram_score(sentence, vector, n):
 	ngrams_array = ngrams.make_ngrams(sentence, n)
 	for ngram in ngrams_array:	
 		if ngram in vector[n-1]:
-			print(ngram)
 			score += vector[n-1][ngram]
 	return score
 
 def add_language_vector(output_file, train_file):
-	
-def recognize_language(sentence, vectors, n)
+	return
+#n = number of kinds of ngrams (uni + bi + trigram = 3)
+def recognize_language(sentence, vectors, n):
 	scores = []
-	for i in range(0,n-1):
-		for language in vectors:
-		scores[i] = {}
-		scores[i][language] = count_ngram_score(sentence, vectors[language], i)
+	for i in range(0,n):
+		scores.append({})
+		for language in vectors.keys():
+			scores[i][language] = count_ngram_score(sentence, vectors[language], i+1)
 	
 	#result for uni/bi/trigrams - 0 ~ uni etc.
 	#vyřešit - shoda u určení jazyků, váhy
 	result = []
-	for i in range(0,n-1):
+	for i in range(0,n):
 		#find the language with largest score for i-gram
-		result[i] = max(scores[i].iteritems(), key=operator.itemgetter(1))[0]
+		result.append(max(scores[i].items(), key=operator.itemgetter(1))[0])
 	counted_result = collections.Counter(result)
 	#find the languge which is mostly appeared - dořešit váhy!!!
-	language = max(counted_result[i].iteritems(), key=operator.tremgetter(1))[0]
-	probability = counted_result{language} / sum(counted_result.values())
+	language = max(counted_result.items(), key=operator.itemgetter(1))[0]
+	probability = counted_result[language] / sum(counted_result.values())
 	return language, probability
 
-
-czech = vector_of_language("train_cs_500lines.txt")
-english = vector_of_language("en/train-en.txt")
+czech = vector_of_language("cs/train-cs-10.txt")
+#english = vector_of_language("en/train-en.txt")
 #norwegian = vector_of_language("no/train-no.txt")
+vectors = {"czech": czech}
+print(recognize_language("ahoj, jak se máš", vectors, 3))
 
-print(count_ngram_score("ahoj, jak se máš", czech, 1))
-print(count_ngram_score("ahoj, jak se máš", czech, 2))
-print(count_ngram_score("ahoj, jak se máš", czech, 3))
-print(count_ngram_score("ahoj, jak se máš", english, 1))
-print(count_ngram_score("ahoj, jak se máš", english, 2))
-print(count_ngram_score("ahoj, jak se máš", english, 3))
