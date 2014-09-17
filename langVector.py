@@ -25,7 +25,7 @@ def load_vector(vector_file):
 			vectors = pickle.load(f)
 	else: vectors = {}
 	if vectors == {}:
-		print("File was empty or didn't exist. New empty set of vectors was created.")
+		print("File with language vectors was empty or didn't exist. New empty set of vectors will be created.")
 	return vectors
 
 

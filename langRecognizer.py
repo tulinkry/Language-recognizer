@@ -1,8 +1,9 @@
-import ngrams, operator, collections, langVector, sys
+import ngrams, operator, collections, langVector, sys, argparse 
 
-#HOW TO IMPROVE: use collections.OrderedDict (pro záznam skóre)
+#HOW TO IMPROVE: use collections.OrderedDict (pro záznam skóre), ask for creating new vector file
 #TODO: shoda u určení jazyků
 #TODO: váhy! - viz HOW TO IMROVE
+#MAYBE: improve the command line arguments???
 
 
 #count a score for sentence from vector of a language ~ probability for ngrams in the language (suma of logarithms)
@@ -34,11 +35,26 @@ def recognize_language(sentence, vectors, n):
 	return language, probability
 
 
-vectors = langVector.load_vector("language_vector.p")
+#parser = argparse.ArgumentParser(description='Recognize language of given sentence (text).')
+#parser.add_argument('-s', metavar='Text', dest='sentence', help='sentence (text) you want to recognize', action='store_const', const="notext58")
+#parser.add_argument('--vector_file', '-vf', metavar='File name', type=str, dest="vector_file", help='file with vetors of languages', default='language_vector.p')
+#args = parser.parse_args()   
 
-if len(sys.argv) < 2:
-	sentence = input("Your sentence: ")
-else:
+if len(sys.argv) > 2:
 	sentence = sys.argv[1]
+	vector_file = sys.argv[2]
+elif len(sys.argv) == 2:
+	sentence = sys.argv[1]
+	vector_file = "language_vector.p"
+else:	
+	sentence = input("Your sentence: ")
+	vector_file = "language_vector.p"
+
+#if args.sentence == "notext58": 
+#	sentence = input("Your sentence: ")
+#else:
+#	sentnce = args.sentence
+
+vectors = langVector.load_vector(vector_file)
 print(recognize_language(sentence, vectors, 3))
 
