@@ -1,5 +1,4 @@
 import ngrams, operator, collections
-		
 
 #make a propbability list for one language
 #source_file - file with plain text
